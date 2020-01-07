@@ -3,7 +3,6 @@ package com.codegym.controller;
 import com.codegym.model.Customer;
 import com.codegym.model.CustomerFrom;
 import com.codegym.service.CustomerService;
-import com.codegym.service.impl.CustomerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
@@ -77,13 +76,13 @@ public class CustomerController {
     public ModelAndView getAllProduct() {
 
         List<Customer> customers = customerService.findAll();
-        ModelAndView modelAndView = new ModelAndView("/customer");
-        modelAndView.addObject("customer", customers);
+        ModelAndView modelAndView = new ModelAndView("viewCustomer");
+        modelAndView.addObject("customers", customers);
 
         return modelAndView;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("login")
     public ModelAndView login(@RequestParam("name") String name, @RequestParam("phone") String phone) {
         List<Customer> customerList = customerService.findAll();
         boolean check = false;
@@ -92,9 +91,9 @@ public class CustomerController {
                 check = true;
             }
         }
-        if(check==true){
+        if(check){
             Customer customer = customerService.login(name,phone);
-            ModelAndView modelAndView = new ModelAndView("/customer");
+            ModelAndView modelAndView = new ModelAndView("/viewCustomer");
             modelAndView.addObject("customer",customer);
             return modelAndView;
         }
